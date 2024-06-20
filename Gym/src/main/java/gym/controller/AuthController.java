@@ -35,8 +35,7 @@ import gym.payload.response.MessageResponse;
 import gym.security.jwt.JwtUtils;
 import gym.service.UserDetailsImpl;
 
-
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

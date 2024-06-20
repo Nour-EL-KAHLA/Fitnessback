@@ -16,5 +16,6 @@ public interface IuserService {
     Map<String, Boolean> deleteUser(Long userId) throws Exception;
     ResponseEntity<?> createUser(SignupRequest signUpRequest) ;
     User getSearchUserEmail(String email) ;
+    User addUser(User user);
     Optional<User> getUser (Long id);
 }

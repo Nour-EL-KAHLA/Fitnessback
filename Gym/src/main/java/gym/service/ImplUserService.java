@@ -1,10 +1,12 @@
 package gym.service;
 
 import gym.models.ERole;
+import gym.models.Program;
 import gym.models.Role;
 import gym.models.User;
 import gym.payload.request.SignupRequest;
 import gym.payload.response.MessageResponse;
+import gym.repositories.ProgramRepository;
 import gym.repositories.RoleRepository;
 import gym.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class ImplUserService implements IuserService {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private ProgramRepository programRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -101,11 +105,10 @@ public class ImplUserService implements IuserService {
 
 
         User user = new User(
-                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                signUpRequest.getUsername()
 
-
+                encoder.encode(signUpRequest.getPassword())
         );
 
         Set<String> strRoles = signUpRequest.getRole();
@@ -140,6 +143,10 @@ public class ImplUserService implements IuserService {
 
         user.setRoles(roles);
         userRepository.save(user);
+        //if a want a program auto when a user is added
+     /*  User savedUser = userRepository.save(user);
+        Program defaultProgram = new Program(savedUser);
+        programRepository.save(defaultProgram);*/
 
         return ResponseEntity.ok(new MessageResponse("User is created with success !"));
     }
@@ -152,5 +159,9 @@ public class ImplUserService implements IuserService {
     @Override
     public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
+    }
+    @Override
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 }
