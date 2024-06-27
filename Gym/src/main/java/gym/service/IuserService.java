@@ -12,10 +12,16 @@ public interface IuserService {
 
     List<User> getAllUsers();
     Optional<User> getUserById(Long id);
+   // List<User> getUserByCoachId(Long id);
     ResponseEntity<User> updateUser(Long id, SignupRequest signupRequest) throws Exception;
     Map<String, Boolean> deleteUser(Long userId) throws Exception;
     ResponseEntity<?> createUser(SignupRequest signUpRequest) ;
-    User getSearchUserEmail(String email) ;
+    Optional<User> getSearchUserEmail(String email) ;
+
+
     User addUser(User user);
+
+    List<User> findbyCoachId(Long id);
+
     Optional<User> getUser (Long id);
 }

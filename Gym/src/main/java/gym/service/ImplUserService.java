@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ImplUserService implements IuserService {
@@ -39,6 +40,8 @@ public class ImplUserService implements IuserService {
         return userRepository.findById(id);
     }
 
+
+
     @Override
     public ResponseEntity<User> updateUser(Long id, SignupRequest signupRequest) throws Exception {
         User user = userRepository.findById(id)
@@ -49,7 +52,8 @@ public class ImplUserService implements IuserService {
         if(signupRequest.getUsername()!=null){user.setUsername(signupRequest.getUsername());}
         if(signupRequest.getEmail()!=null){
         user.setEmail(signupRequest.getEmail());}
-
+        if(signupRequest.getWeight()!=null){user.setWeight(signupRequest.getWeight());}
+        if(signupRequest.getSexe()!=null){user.setSexe(signupRequest.getSexe());}
 
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -152,9 +156,25 @@ public class ImplUserService implements IuserService {
     }
 
     @Override
-    public User getSearchUserEmail(String email) {
+    public Optional<User> getSearchUserEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
+
+
+    @Override
+    public List<User> findbyCoachId(Long id) {
+        // Stream
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                .filter(user -> {
+                    Program program = user.getProgram();
+                    return program != null && program.getCoach() != null && program.getCoach().getId().equals(id);
+                })
+                .collect(Collectors.toList());
+    }
+
+
 
     @Override
     public Optional<User> getUser(Long id) {

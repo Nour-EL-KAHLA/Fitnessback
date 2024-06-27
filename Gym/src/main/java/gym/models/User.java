@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,6 +52,11 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private Program program;
 
+	private Integer weight;
+
+	private ESexe sexe;
+
+
 	public User() {
 	}
 
@@ -58,6 +64,14 @@ public class User implements Serializable {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+	}
+
+	public User(String username, String email, String password , ESexe sexe , Integer weight ) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.sexe = sexe;
+		this.weight = weight;
 	}
 
 

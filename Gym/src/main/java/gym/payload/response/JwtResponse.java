@@ -1,6 +1,10 @@
 package gym.payload.response;
 
+import gym.models.ESexe;
+import gym.models.Role;
+
 import java.util.List;
+import java.util.Set;
 
 public class JwtResponse {
 	private String token;
@@ -8,14 +12,21 @@ public class JwtResponse {
 	private Long id;
 	private String username;
 	private String email;
-	private List<String> roles;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+	private Integer weight;
+
+	private ESexe sexe;
+	private Set<Role> roles;
+
+	public JwtResponse(String accessToken, Long id, String username, String email, Set<Role> roles , ESexe sex , Integer weight) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.roles = roles;
+		this.weight=weight;
+		this.sexe=sexe;
+
 	}
 
 	public String getAccessToken() {
@@ -58,7 +69,7 @@ public class JwtResponse {
 		this.username = username;
 	}
 
-	public List<String> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 }

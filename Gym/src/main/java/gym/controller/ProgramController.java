@@ -64,11 +64,12 @@ public class ProgramController {
                                                      @PathVariable Long exerciseId,
                                                      @RequestParam("dayOfWeek")
                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dayOfWeek) {
-        // Ensure dayOfWeek is not null
+
         if (dayOfWeek == null) {
             return ResponseEntity.badRequest().build();
         }
         programService.addExerciseToProgram(programId, exerciseId, dayOfWeek);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }

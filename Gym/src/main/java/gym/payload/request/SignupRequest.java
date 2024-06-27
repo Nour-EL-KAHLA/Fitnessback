@@ -1,9 +1,12 @@
 package gym.payload.request;
 
+import gym.models.ESexe;
+import lombok.Getter;
+
 import java.util.Set;
 
 import javax.validation.constraints.*;
- 
+ @Getter
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)
@@ -19,6 +22,10 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    private ESexe sexe;
+     private Integer weight;
+
   
     public String getUsername() {
         return username;

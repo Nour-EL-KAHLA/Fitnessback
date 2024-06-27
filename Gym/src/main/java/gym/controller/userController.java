@@ -33,8 +33,9 @@ public class userController {
         return user;
     }
 
+
+
     @GetMapping("/user/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH') or hasRole('ROLE_USER')")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
 
@@ -44,6 +45,8 @@ public class userController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
     @PostMapping("/adduser")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -62,9 +65,15 @@ public class userController {
         if(signupRequest!= null) {
             return userService.updateUser(id,signupRequest);}
         else return null ;}
-    @GetMapping("/searchByUserEmail/{email}")
+  /*  @GetMapping("/searchByUserEmail/{email}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public User getUserByEmail(@PathVariable(value="email") String email) {
         return userService.getSearchUserEmail(email);
+    }*/
+
+    @GetMapping("/findbycoach/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_COACH')")
+    public List<User> findbyCoachId(@PathVariable Long id){
+        return userService.findbyCoachId(id);
     }
 }

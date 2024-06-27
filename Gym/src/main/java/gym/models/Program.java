@@ -30,9 +30,8 @@ public class Program implements Serializable {
     @JoinColumn(name = "coach_id")
     private User coach;
 
-
+    //@JsonIgnore
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<ProgramExercise> programExercises;
 
 

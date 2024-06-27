@@ -1,6 +1,8 @@
 package gym.security.jwt;
 
 import java.util.Date;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +28,16 @@ public class JwtUtils {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
 		return Jwts.builder()
-				.setSubject((userPrincipal.getUsername()))
+				.setClaims((userPrincipal.roles.stream().collect(Collectors.toMap(x->x.toString(),y->y))))
+				.setSubject((userPrincipal.getEmail()))
+				.setId((userPrincipal.getId().toString()))
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
 
-	public String getUserNameFromJwtToken(String token) {
+	public String getUserEmailFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
 

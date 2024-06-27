@@ -2,15 +2,19 @@ package gym.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import gym.models.ESexe;
+import gym.models.Role;
 import gym.models.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+@Getter
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
@@ -20,18 +24,31 @@ public class UserDetailsImpl implements UserDetails {
 
 	private String email;
 
+	public Set<Role> roles;
+
 	@JsonIgnore
 	private String password;
+
+	private Integer weight;
+
+	private ESexe sexe;
+
 
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Long id, String username, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
+						   Collection<? extends GrantedAuthority> authorities, Set<Role> roles , ESexe sexe , Integer weight ) {
 		this.id = id;
 		this.username = username;
 		this.email = email;
+		this.weight = weight;
+		this.sexe = sexe;
 		this.password = password;
 		this.authorities = authorities;
+		this.roles = roles;
+
+
+
 	}
 
 	public static UserDetailsImpl build(User user) {
@@ -44,7 +61,10 @@ public class UserDetailsImpl implements UserDetails {
 				user.getUsername(), 
 				user.getEmail(),
 				user.getPassword(), 
-				authorities);
+				authorities,
+				user.getRoles(),
+				user.getSexe(),
+				user.getWeight());
 	}
 
 	@Override
@@ -69,6 +89,7 @@ public class UserDetailsImpl implements UserDetails {
 	public String getUsername() {
 		return username;
 	}
+
 
 	@Override
 	public boolean isAccountNonExpired() {

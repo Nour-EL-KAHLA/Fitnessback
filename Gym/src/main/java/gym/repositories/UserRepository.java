@@ -1,5 +1,6 @@
 package gym.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import gym.models.User;
@@ -17,5 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Boolean existsByEmail(String email);
 
 
-	User findUserByEmail(String email);
+	Optional<User> findUserByEmail(String email);
+
+
 }

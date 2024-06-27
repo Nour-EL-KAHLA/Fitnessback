@@ -58,36 +58,42 @@ public class AuthController {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
+		/*List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
-				.collect(Collectors.toList());
+				.collect(Collectors.toList());*/
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
+		return ResponseEntity.ok(new JwtResponse(jwt,
 												 userDetails.getId(), 
-												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
-												 roles));
+												 userDetails.getUsername(),
+												 userDetails.getEmail(),
+										         userDetails.getRoles(),
+				                                 userDetails.getSexe(),
+				                                 userDetails.getWeight()
+
+
+												 ));
 	}
 
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
-		}
+
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
+		}
+		if (signUpRequest.getEmail()== null ||signUpRequest.getUsername() == null||signUpRequest.getPassword() == null) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Messing arguments"));
 		}
 
 		// Create new user's account

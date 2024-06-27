@@ -17,12 +17,13 @@ public class ProgramExercise implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-  //  @JsonIgnore
+    @JsonIgnore
     @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id")
     private Program program;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+   // @JsonIgnore
+    @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
