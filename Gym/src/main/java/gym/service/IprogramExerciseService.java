@@ -11,4 +11,7 @@ public interface IprogramExerciseService
 {
     List<ProgramExercise> getAllProgramExercises();
     Optional<ProgramExercise> getProgramExerciseById(Long id);
+
+    void deleteProgramExerciseFromProgram(Program program, ProgramExercise programExercise) ;
+
 }

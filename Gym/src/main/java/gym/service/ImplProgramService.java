@@ -75,4 +75,11 @@ public class ImplProgramService implements IprogramService {
         ProgramExercise programExercise = new ProgramExercise(program, exercise, date);
         programExerciseRepository.save(programExercise);
     }
+    public void deleteProgramExerciseFromProgram(Program program, ProgramExercise programExercise) {
+        if (programExercise.getProgram().equals(program)) {
+            programExerciseRepository.delete(programExercise);
+        } else {
+            throw new IllegalArgumentException("The provided ProgramExercise does not belong to the specified Program.");
+        }
+    }
 }

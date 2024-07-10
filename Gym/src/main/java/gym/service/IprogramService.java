@@ -1,6 +1,7 @@
 package gym.service;
 
 import gym.models.Program;
+import gym.models.ProgramExercise;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -15,4 +16,5 @@ public interface IprogramService {
     void deleteProgram(Long id);
     Program updateProgram(Long id, Program programDetails);
     void addExerciseToProgram(Long programId, Long exerciseId, LocalDate date);
+    void deleteProgramExerciseFromProgram(Program program, ProgramExercise programExercise);
 }

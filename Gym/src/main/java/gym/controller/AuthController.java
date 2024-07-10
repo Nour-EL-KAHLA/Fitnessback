@@ -14,6 +14,7 @@ import gym.models.User;
 import gym.repositories.RoleRepository;
 import gym.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -87,7 +88,7 @@ public class AuthController {
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return ResponseEntity
-					.badRequest()
+					.status(HttpStatus.CONFLICT)
 					.body(new MessageResponse("Error: Email is already in use!"));
 		}
 		if (signUpRequest.getEmail()== null ||signUpRequest.getUsername() == null||signUpRequest.getPassword() == null) {
